@@ -79,6 +79,7 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
         successfully finished, navigate back to the 'listing.list' state using $state.go(). If an error 
         occurs, pass it to $scope.error. 
        */
+	   var id = $stateParams.listingId;
 	   $scope.error = null;
 	   if(!isValid) {
 		   $scope.$broadcast('show-errors-check-validity', 'articleForm');
@@ -90,7 +91,7 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
 		   address: $scope.address
 	   };
 	   
-	   Listings.update(listing)
+	   Listings.update(id, listing)
 		.then(function(response) {
 			$state.go('listings.list', { successMessage: 'Listing successfully updated!' });
 		}, function(error) {
@@ -105,8 +106,8 @@ angular.module('listings').controller('ListingsController', ['$scope', '$locatio
         display the error. 
        */
 	   $scope.error = null;
-	   var listing = $scope.listing;
-	   Listings.remove(listing)
+	   var id = $stateParams.listingId;
+	   Listings.delete(id)
 			.then(function(response) {
 				$state.go('listings.list', {successMessage: 'Listing successfully removed!' });
 			}, function(error) {
